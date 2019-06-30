@@ -19,6 +19,7 @@ RSpec.describe 'Readings', type: :request do
       it 'returns unathorized' do
         post readings_path, params: params, headers: { 'HouseholdToken': Faker::Alphanumeric.alphanumeric(15) }
         expect(response).to have_http_status(401)
+        expect(response.parsed_body['message']).to eq('Failed to authenticate thermostat')
       end
     end
 
@@ -48,6 +49,7 @@ RSpec.describe 'Readings', type: :request do
       it 'returns 400 Bad Request status' do
         post readings_path, params: {}, headers: { 'HouseholdToken': thermostat.household_token }
         expect(response).to have_http_status(400)
+        expect(response.parsed_body['message'].present?).to eq(true)
       end
     end
   end
@@ -59,6 +61,7 @@ RSpec.describe 'Readings', type: :request do
       it 'returns unathorized' do
         get reading_path(reading.number), headers: { 'HouseholdToken': Faker::Alphanumeric.alphanumeric(15) }
         expect(response).to have_http_status(401)
+        expect(response.parsed_body['message']).to eq('Failed to authenticate thermostat')
       end
     end
 
@@ -77,6 +80,7 @@ RSpec.describe 'Readings', type: :request do
       it 'returns 404 not found status' do
         get reading_path(1000), headers: { 'HouseholdToken': thermostat.household_token }
         expect(response).to have_http_status(404)
+        expect(response.parsed_body['message'].present?).to eq(true)
       end
     end
   end

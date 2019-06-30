@@ -11,6 +11,7 @@ RSpec.describe 'Thermostats', type: :request do
       it 'returns unathorized' do
         get thermostats_path, headers: { 'HouseholdToken': Faker::Alphanumeric.alphanumeric(15) }
         expect(response).to have_http_status(401)
+        expect(response.parsed_body['message']).to eq('Failed to authenticate thermostat')
       end
     end
 

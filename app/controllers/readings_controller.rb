@@ -13,16 +13,12 @@ class ReadingsController < ApplicationController
     if reading.valid?
       thermostat_cache = ThermostatReading::Cache.new(thermostat.household_token)
 
-      last_used_number = thermostat_cache.fetch_last_used_number do
-        # number is incremental, so maximum will be the last used number
-        thermostat.readings.maximum(:number)
-      end
+      # number is incremental, so maximum will be the last used number
+      last_used_number = thermostat_cache.fetch_last_used_number { thermostat.readings.maximum(:number) }
       number = ThermostatReading::Calculator.counter(last_used_number)
 
-      thermostat_cache.cache!(reading_params.merge(number: number)) do |key|
-        # if any key is missing from redis, pull it from db.
-        thermostat.send(key)
-      end
+      # if any key is missing from redis, pull it from db.
+      thermostat_cache.cache!(reading_params.merge(number: number)) { |key| thermostat.send(key) }
 
       CreateReadingJob.perform_later(thermostat_cache.reading.merge(thermostat_id: thermostat.id))
       render json: { number: number }, status: 200

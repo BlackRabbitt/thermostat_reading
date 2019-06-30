@@ -2,17 +2,17 @@
 
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound do
-    render status: 404
+    render json: { message: 'Record Not Found' }, status: 404
   end
 
-  rescue_from ActionController::ParameterMissing do
-    render status: 400
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { message: e.message }, status: 400
   end
 
   protected
 
   def authenticate_thermostat
-    render(status: 401) && return unless thermostat
+    render(json: { message: 'Failed to authenticate thermostat' }, status: 401) && return unless thermostat
   end
 
   def thermostat
