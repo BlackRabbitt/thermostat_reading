@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_26_061204) do
+ActiveRecord::Schema.define(version: 2019_06_28_122231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "readings", force: :cascade do |t|
     t.bigint "thermostat_id"
-    t.bigint "sequence_number"
+    t.bigint "number", null: false
     t.float "temperature"
     t.float "humidity"
     t.float "battery_charge"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2019_06_26_061204) do
     t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "readings_count"
+    t.float "temperature_sum"
+    t.float "temperature_max"
+    t.float "temperature_min"
+    t.float "humidity_sum"
+    t.float "humidity_max"
+    t.float "humidity_min"
+    t.float "battery_charge_sum"
+    t.float "battery_charge_max"
+    t.float "battery_charge_min"
   end
 
   add_foreign_key "readings", "thermostats"

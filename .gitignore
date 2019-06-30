@@ -29,3 +29,7 @@
 /config/database.yml
 /config/cable.yml
 /config/storage.yml
+public/coverage
+
+.env
+dump.rdb
