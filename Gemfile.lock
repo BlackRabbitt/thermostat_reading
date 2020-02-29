@@ -115,7 +115,7 @@ GEM
       equatable (~> 0.6)
       tty-color (~> 0.5)
     pg (1.1.4)
-    puma (3.12.1)
+    puma (3.12.3)
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
@@ -235,7 +235,7 @@ DEPENDENCIES
   hiredis
   listen (>= 3.0.5, < 3.2)
   pg
-  puma (~> 3.11)
+  puma (~> 3.12)
   rails (~> 6.0.0.rc1)
   rspec-rails (~> 3.8)
   rubocop
